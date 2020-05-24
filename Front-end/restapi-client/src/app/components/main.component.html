@@ -1,0 +1,26 @@
+<div id="main-container">
+
+  <input (click)="getRoute()" id="test-btn" class="button" type="submit">
+
+  <div *ngIf="fetched">
+    <label>Route fetched</label>
+    <ul>
+      <li>
+        <h2>RouteData</h2>
+        <p>lunghezza: {{route.distance}}</p>
+        <p>tempo di percorrenza: {{route.time}}</p>
+        <h3>Meteo all'arrivo</h3>
+        <ul>
+          <li>
+          <p>luce solare: {{route.weatheratdest.daylight}}</p>
+          <p>descrizione: {{route.weatheratdest.description}}</p>
+          <p>temperatura: {{route.weatheratdest.temperature}}°</p>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+
+
+</div>
