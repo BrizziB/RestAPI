@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
 import { Route } from '../model/Route';
+import { Position } from '../model/Position';
 
 
 @Injectable({
@@ -19,14 +21,32 @@ export class RouteService {
     private http: HttpClient,
     ) {}
 
-  getRoute(): Observable<HttpResponse<Route>> {
-    const url = 'http://localhost:8080/RestAPI_prova/routes/getRoute?' +
-                'waypoint=40.7480-73.9862&waypoint=40.7500-73.9933&waypoint=40.7558-73.9869&waypoint=40.7858-72.9869';
+  public getRoute(positions: Position[], waiting: boolean): Observable<HttpResponse<Route>> {
+    const baseurl = 'http://localhost:8080/RestAPI_prova/routes/getRoute?';
 
-    const req = this.http.get<Route>(
+    const url = baseurl + this.buildRouteURL(positions);
+
+    return this.http.get<Route>(
       url, {observe: 'response', headers: this.httpOptions.headers }
-    );
-    return req;
+      ).pipe(
+        catchError(this.catchError)
+        );
+  }
+
+  private catchError(error) {
+    alert('Route non definibile');
+    return throwError('Route non definibile');
+  }
+
+  private buildRouteURL(positions: Position[]): string {
+    let url = '';
+    positions.forEach(position => {
+      url = url + ('waypoint=' + position.latitude + ',' + position.longitude + '&');
+    });
+    url = url.substring(0, url.length - 1);
+
+
+    return url;
   }
 
 

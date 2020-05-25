@@ -24,7 +24,8 @@ public class WeatherMapper {
     }
 
     private String getDayLight(JsonObject obj){
-        return getObservation(obj).get("daylight").getAsString();
+        if (getObservation(obj).get("daylight").getAsString() =="D") return "day";
+        else return "night";
     }
     private String getDescription(JsonObject obj){
         return getObservation(obj).get("description").getAsString();

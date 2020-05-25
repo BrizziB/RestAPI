@@ -1,4 +1,4 @@
-
+import { Position } from './Position';
 
 export class Segment {
 

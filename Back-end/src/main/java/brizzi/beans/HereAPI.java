@@ -61,7 +61,7 @@ public class HereAPI {
         int i=0;
 
         for (Position position: waypointsPositions) {
-            paramURL = paramURL +("waypoint" + i +"="+ position.getLatitude() +"%2C-"+ position.getLongitude() + "&" );
+            paramURL = paramURL +("waypoint" + i +"="+ position.getLatitude() +"%2C"+ position.getLongitude() + "&" );
             i++;
         }
 
@@ -70,5 +70,4 @@ public class HereAPI {
     }
 
 }
-//calculateroute.json?waypoint0=40.7480%2C-73.9862&waypoint1=40.7500%2C-73.9933&waypoint2=40.7558%2C-73.9869&mode=fastest%3Bcar&apiKey=H6XyiCT0w1t9GgTjqhRXxDMrVj9h78ya3NuxlwM7XUs
 

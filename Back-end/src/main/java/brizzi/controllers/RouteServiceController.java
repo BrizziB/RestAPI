@@ -42,7 +42,7 @@ public class RouteServiceController {
         Weather weather = weatherMapper.parseJsonToWeather(rawWeather);
 
         RouteDTO routeDTO = routeMapper.buildRouteDTO(route);
-        routeDTO.setWeatheratdest(weather); // non ho prodotto anche un WeatherDTO, alla fine ho preferito lasciare basilare la versione di model
+        routeDTO.setWeatheratdest(weather); // non ho prodotto anche un WeatherDTO, alla fine ho preferito lasciare basilare la versione del model
 
         return routeDTO;
     }
@@ -55,7 +55,8 @@ public class RouteServiceController {
         List<Position> waypointsPosition = new ArrayList<>();
 
         for (String rawWaypoint : waypoints) {
-            waypointsPosition.add( positionMapper.parseStringToPosition(rawWaypoint) );
+            Position pos = positionMapper.parseStringToPosition(rawWaypoint);
+            if(pos != null) waypointsPosition.add( pos );
         }
         return hereAPI.getRoute(waypointsPosition);
     }

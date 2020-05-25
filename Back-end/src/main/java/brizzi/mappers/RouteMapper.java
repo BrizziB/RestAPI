@@ -31,10 +31,12 @@ public class RouteMapper {
         ArrayList<Float> segmentDistances = new ArrayList<>();
         ArrayList<Float> segmentTravelTimes = new ArrayList<>();
         for (JsonElement elem: jsonSegments) {
-            segmentDistances.add(elem.getAsJsonObject().get("length").getAsFloat());
-            segmentTravelTimes.add(elem.getAsJsonObject().get("travelTime").getAsFloat());
+            segmentDistances.add(elem.getAsJsonObject().get("length").getAsFloat()/1000); 
+            segmentTravelTimes.add(elem.getAsJsonObject().get("travelTime").getAsFloat()/3600);
         }
         route.setRouteSummary(gson.fromJson(jsonSummary, RouteSummary.class));
+        route.getRouteSummary().setDistance(route.getRouteSummary().getDistance()/1000);
+        route.getRouteSummary().setTravelTime(route.getRouteSummary().getTravelTime()/3600);
         route.populateSegments(segmentDistances, segmentTravelTimes);
 
         return route;

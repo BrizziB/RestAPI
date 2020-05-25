@@ -46,7 +46,7 @@ public class Route {
         if(this.segments==null) this.segments = new ArrayList<>();
         for(int i=1; i<waypoints.size(); i++){
             Position startingPos = waypoints.get(i-1).getMappedPosition();
-            Position endingPos = waypoints.get(i-1).getMappedPosition();
+            Position endingPos = waypoints.get(i).getMappedPosition();
             segments.add(new Segment(startingPos, endingPos, distances.get(i-1), travelTimes.get(i-1)));
         }
     }
