@@ -10,7 +10,7 @@ public class RouteDTO {
     private Float distance;
     private Float time;
     private List<Segment> segments;
-    private Weather weatheratdest;
+    private Weather weatherAtDest;
 
     public RouteDTO() {
     }
@@ -39,11 +39,11 @@ public class RouteDTO {
         this.segments = segments;
     }
 
-    public Weather getWeatheratdest() {
-        return weatheratdest;
+    public Weather getWeatherAtDest() {
+        return weatherAtDest;
     }
 
-    public void setWeatheratdest(Weather weatheratdest) {
-        this.weatheratdest = weatheratdest;
+    public void setWeatherAtDest(Weather weatherAtDest) {
+        this.weatherAtDest = weatherAtDest;
     }
 }

@@ -8,7 +8,6 @@ import brizzi.mappers.WeatherMapper;
 import brizzi.model.DTO.RouteDTO;
 import brizzi.model.Position;
 import brizzi.model.Route;
-import brizzi.model.Segment;
 import brizzi.model.Weather;
 
 import javax.enterprise.context.RequestScoped;
@@ -17,17 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RequestScoped
-public class RouteServiceController {
-
+public class RouteServiceController { // realizza le funzionalità
     @Inject
     HereAPI hereAPI;
-
     @Inject
     PositionMapper positionMapper;
-
     @Inject
     RouteMapper routeMapper;
-
     @Inject
     WeatherMapper weatherMapper;
 
@@ -42,7 +37,7 @@ public class RouteServiceController {
         Weather weather = weatherMapper.parseJsonToWeather(rawWeather);
 
         RouteDTO routeDTO = routeMapper.buildRouteDTO(route);
-        routeDTO.setWeatheratdest(weather); // non ho prodotto anche un WeatherDTO, alla fine ho preferito lasciare basilare la versione del model
+        routeDTO.setWeatherAtDest(weather); // non ho prodotto anche un WeatherDTO, alla fine ho preferito lasciare basilare direttamente la versione del model
 
         return routeDTO;
     }
@@ -53,7 +48,6 @@ public class RouteServiceController {
 
     private String getRawRouteFromAPI(List<String> waypoints){
         List<Position> waypointsPosition = new ArrayList<>();
-
         for (String rawWaypoint : waypoints) {
             Position pos = positionMapper.parseStringToPosition(rawWaypoint);
             if(pos != null) waypointsPosition.add( pos );

@@ -7,6 +7,6 @@ export class Route {
   distance: Number;
   time: Number;
   segments: Segment[];
-  weatheratdest: Weather;
+  weatherAtDest: Weather;
 
 }

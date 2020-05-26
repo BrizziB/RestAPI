@@ -27,12 +27,6 @@ export class MainComponent implements OnInit {
   ngOnInit() {
     this.end = new Position;
     this.start = new Position;
-/*     this.start.name = 'Partenza';
-    this.start.latitude = 40.7480;
-    this.start.longitude = -73.9862;
-    this.end.name = 'Destinazione';
-    this.end.latitude = 40.7858;
-    this.end.longitude = -72.9869; */
     this.stops = [];
     this.cities = CITIES;
   }
@@ -51,22 +45,19 @@ export class MainComponent implements OnInit {
   }
 
   public setStartingCity(city: String): void {
+    if (city === 'Custom') { return; }
     const selectedCity = this.cities.find(pos => pos.name === city);
-    this.start.name = selectedCity.name;
-    this.start.latitude = selectedCity.latitude;
-    this.start.longitude = selectedCity.longitude;
+    this.start.copyPosition(selectedCity);
   }
   public setEndingCity(city: String): void {
+    if (city === 'Custom') { return; }
     const selectedCity = this.cities.find(pos => pos.name === city);
-    this.end.name = selectedCity.name;
-    this.end.latitude = selectedCity.latitude;
-    this.end.longitude = selectedCity.longitude;
+    this.end.copyPosition(selectedCity);
   }
   public setStopCity(city: String, index: number): void {
+    if (city === 'Custom') { return; }
     const selectedCity = this.cities.find(pos => pos.name === city);
-    this.stops[index].name = selectedCity.name;
-    this.stops[index].latitude = selectedCity.latitude;
-    this.stops[index].longitude = selectedCity.longitude;
+    this.stops[index].copyPosition(selectedCity);
   }
 
   public addStop(): void {

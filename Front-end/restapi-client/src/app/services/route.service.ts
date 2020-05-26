@@ -11,29 +11,27 @@ import { Position } from '../model/Position';
 })
 
 export class RouteService {
-
-  httpOptions = {
+  private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
-  public userID: Number;
+
+  private routeBaseUrl = 'http://localhost:8080/RestAPI_prova/routes/getRoute?';
 
   constructor(
     private http: HttpClient,
-    ) {}
+    ) {      }
 
   public getRoute(positions: Position[], waiting: boolean): Observable<HttpResponse<Route>> {
-    const baseurl = 'http://localhost:8080/RestAPI_prova/routes/getRoute?';
-
-    const url = baseurl + this.buildRouteURL(positions);
-
-    return this.http.get<Route>(
-      url, {observe: 'response', headers: this.httpOptions.headers }
-      ).pipe(
+    const url = this.routeBaseUrl + this.buildRouteURL(positions);
+    return this.http
+    .get<Route>(
+      url, {observe: 'response', headers: this.httpOptions.headers })
+      .pipe(
         catchError(this.catchError)
         );
   }
 
-  private catchError(error) {
+  private catchError() {
     alert('Route non definibile');
     return throwError('Route non definibile');
   }

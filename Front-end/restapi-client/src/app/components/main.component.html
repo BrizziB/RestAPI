@@ -1,163 +1,148 @@
-<div id="page">
+<div id="main-div" class="container">
+  <div id="main-row" class="row">
 
+    <!-- in caso di interfaccia più complessa avrei suddiviso in vari files -->
 
-  <div id="main-container">
-    <div class="jumbotron jumbotron-fluid bg-transparent">
-      <div class="container">
-        <h1 class="display-3 font-weight-bold">RoutePlanner</h1>
-        <p class="lead subtitle">Imposta le mete da visitare e calcola il viaggio</p>
-        <hr/>
+    <div id="route-div" class="col-md-6" >
+      <h3 class="font-weight-bold">Il tuo viaggio</h3>
+        <div class="route-start form-group">
+            <label>Partenza
+              <select class="form-control" [(ngModel)]="start.name" (change)="setStartingCity($event.target.value)">
+                <option > Custom </option>
+                <option *ngFor="let city of cities" [value]="city.name">
+                    {{city.name}}
+                </option>
+              </select>
+            </label>
+            <label>Latitudine
+              <input class="form-control" [(ngModel)]="start.latitude" placeholder="latitudine"/>
+            </label>
+            <label>Latitudine
+              <input class="form-control" [(ngModel)]="start.longitude" placeholder="longitudine"/>
+            </label>
+        </div>
+
+        <div *ngFor="let stop of stops; let i=index; last as isLast" class="route-stop">
+          <label>Meta {{i+1}}
+            <select class="form-control" [(ngModel)]="stop.name" (change)="setStopCity($event.target.value, i)">
+              <option > Custom </option>
+              <option *ngFor="let city of cities" [value]="city.name">
+                  {{city.name}}
+              </option>
+            </select>
+          </label>
+          <label>Latitudine
+            <input class="form-control" [(ngModel)]="stop.latitude" placeholder="latitudine"/>
+          </label>
+          <label>Latitudine
+            <input class="form-control" [(ngModel)]="stop.longitude" placeholder="longitudine"/>
+          </label>
+            <button *ngIf="isLast" (click)="removeStop()" style="margin-top:3%!important;" class="button btn btn-danger">X</button>
+        </div>
+
+        <button (click)="addStop()" id="addBtn" class="button btn btn-success">Aggiungi Fermata</button>
+
+        <div class="route-stop form-group">
+          <label>Arrivo
+            <select class="form-control" [(ngModel)]="end.name" (change)="setEndingCity($event.target.value)">
+              <option > Custom </option>
+              <option *ngFor="let city of cities" [value]="city.name">
+                  {{city.name}}
+              </option>
+            </select>
+          </label>
+          <label>Latitudine
+            <input class="form-control" [(ngModel)]="end.latitude" placeholder="latitudine"/>
+          </label>
+          <label>Latitudine
+            <input class="form-control" [(ngModel)]="end.longitude" placeholder="longitudine"/>
+          </label>
+        </div>
+
+        <div>
+          <button (click)="calculateRoute()" id="routeBtn" class="button btn btn-warning">Calcola viaggio</button>
+                          <button (click)="resetRoute()" id="routeBtn" class="button btn btn-danger" style="margin-left:42%">Reset</button>
+        </div>
+    </div>
+
+    <div *ngIf="waiting" id="summary-div" class="col-md-6 d-flex justify-content-center">
+      <div class="spinner-border text-success" role="status" style="margin-top:42%">
+        <span class="sr-only">Loading...</span>
       </div>
+    </div>
 
-      <div id="main-div" class="container">
-        <div id="main-row" class="row">
-          <div id="route-div" class="col-md-6" >
-            <h3 class="font-weight-bold">Il tuo viaggio</h3>
-              <div class="route-start form-group">
-                  <label>Partenza
-                    <select class="form-control" [(ngModel)]="start.name" (change)="setStartingCity($event.target.value)">
-                      <option > Custom </option>
-                      <option *ngFor="let city of cities" [value]="city.name">
-                          {{city.name}}
-                      </option>
-                    </select>
-                  </label>
-                  <label>Latitudine
-                    <input class="form-control" [(ngModel)]="start.latitude" placeholder="latitudine"/>
-                  </label>
-                  <label>Latitudine
-                    <input class="form-control" [(ngModel)]="start.longitude" placeholder="longitudine"/>
-                  </label>
+    <div *ngIf="fetched" id="summary-div" class="col-md-6">
+      <h3 class="font-weight-bold">Condizioni del viaggio</h3>
+      <div class="route-stats">
+        <div id="route-summary" class="details-div">
+            <h5>Statistiche</h5>
+            <div class="row">
+              <div class="col-xs-6" style="margin-left:40px">
+                <label>Distanza totale </label>  <p>{{(route.distance)}}km</p>
               </div>
-
-              <div *ngFor="let stop of stops; let i=index; last as isLast" class="route-stop">
-                <label>Meta {{i+1}}
-                  <select class="form-control" [(ngModel)]="stop.name" (change)="setStopCity($event.target.value, i)">
-                    <option > Custom </option>
-                    <option *ngFor="let city of cities" [value]="city.name">
-                        {{city.name}}
-                    </option>
-                  </select>
-                </label>
-                <label>Latitudine(°N)
-                  <input class="form-control" [(ngModel)]="stop.latitude" placeholder="latitudine"/>
-                </label>
-                <label>Latitudine(°W)
-                  <input class="form-control" [(ngModel)]="stop.longitude" placeholder="longitudine"/>
-                </label>
-                  <button *ngIf="isLast" (click)="removeStop()" style="margin-top:3%!important;" class="button btn btn-danger">X</button>
-
+              <div class="col-xs-6" style="margin-left:40px">
+                <label>Tempo necessario </label> <p>{{(route.time)}}h</p>
               </div>
-
-              <button (click)="addStop()" id="addBtn" class="button btn btn-success">Aggiungi Fermata</button>
-
-              <div class="route-stop form-group">
-                <label>Arrivo
-                  <select class="form-control" [(ngModel)]="end.name" (change)="setEndingCity($event.target.value)">
-                    <option > Custom </option>
-                    <option *ngFor="let city of cities" [value]="city.name">
-                        {{city.name}}
-                    </option>
-                  </select>
-                </label>
-                <label>Latitudine(°N)
-                  <input class="form-control" [(ngModel)]="end.latitude" placeholder="latitudine"/>
-                </label>
-                <label>Latitudine(°W)
-                  <input class="form-control" [(ngModel)]="end.longitude" placeholder="longitudine"/>
-                </label>
-              </div>
-              <div>
-                <button (click)="calculateRoute()" id="routeBtn" class="button btn btn-warning">Calcola viaggio</button>
-                                <button (click)="resetRoute()" id="routeBtn" class="button btn btn-danger" style="margin-left:42%">Reset</button>
-              </div>
-          </div>
-
-          <div *ngIf="waiting" id="summary-div" class="col-md-6 d-flex justify-content-center">
-            <div class="spinner-border text-success" role="status" style="margin-top:42%">
-              <span class="sr-only">Loading...</span>
             </div>
-          </div>
-
-          <div *ngIf="fetched" id="summary-div" class="col-md-6">
-            <h3 class="font-weight-bold">Condizioni del viaggio</h3>
-            <div class="route-stats">
-              <div id="route-summary" class="details-div">
-                  <h5>Statistiche</h5>
-                  <div class="row">
-                    <div class="col-xs-6" style="margin-left:40px">
-                      <label>Distanza totale </label>  <p>{{(route.distance)}}km</p>
-                    </div>
-                    <div class="col-xs-6" style="margin-left:40px">
-                      <label>Tempo necessario </label> <p>{{(route.time)}}h</p>
-                    </div>
-                  </div>
-              </div>
-              <div id="route-segments">
-                <div class="route-segment details-div" *ngFor="let segment of route.segments; let i=index">
-                  <h5>Tappa numero {{i+1}}</h5>
-                  <div class="start-pos details-div">
-                    <h6> Posizione iniziale</h6>
-                    <div class="row">
-                      <div class="col-xs-6" style="margin-left:40px">
-                        <label>Latitudine </label>  <p>{{segment.startingPosition.latitude}}</p>
-                      </div>
-                      <div class="col-xs-6" style="margin-left:40px">
-                        <label>Longitudine </label> <p>{{segment.startingPosition.longitude}}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="end-pos details-div">
-                    <h6> Posizione finale</h6>
-                    <div class="row">
-                      <div class="col-xs-6" style="margin-left:40px">
-                        <label>Latitudine </label>  <p>{{segment.endingPosition.latitude}}</p>
-                      </div>
-                      <div class="col-xs-6" style="margin-left:40px">
-                        <label>Longitudine </label> <p>{{segment.endingPosition.longitude}}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="summary details-div">
-                    <h6>Statistiche</h6>
-                    <div class="row">
-                      <div class="col-xs-6" style="margin-left:40px">
-                        <label>Lunghezza segmento </label>  <p>{{(segment.distance)}}km</p>
-                      </div>
-                      <div class="col-xs-6" style="margin-left:40px">
-                        <label>Tempo necessario </label> <p>{{(segment.time)}}h</p>
-                      </div>
-                    </div>
-                  </div>
+        </div>
+        <div id="route-segments">
+          <div class="route-segment details-div" *ngFor="let segment of route.segments; let i=index">
+            <h5>Tappa numero {{i+1}}</h5>
+            <div class="start-pos details-div">
+              <h6> Posizione iniziale</h6>
+              <div class="row">
+                <div class="col-xs-6" style="margin-left:40px">
+                  <label>Latitudine </label>  <p>{{segment.startingPosition.latitude}}</p>
+                </div>
+                <div class="col-xs-6" style="margin-left:40px">
+                  <label>Longitudine </label> <p>{{segment.startingPosition.longitude}}</p>
                 </div>
               </div>
-              <div id="route-weather" class="details-div">
-                <h6>Condizioni meteo all'arrivo</h6>
-                <div class="row">
-                  <div class="col-xs-4" style="margin-left:40px">
-                    <label>Illuminazione </label>  <p>{{route.weatheratdest.daylight}}</p>
-                  </div>
-                  <div class="col-xs-4" style="margin-left:20px">
-                    <label>Descrizione </label> <p>{{route.weatheratdest.description}}</p>
-                  </div>
-                  <div class="col-xs-4" style="margin-left:20px">
-                    <label>Temperatura </label> <p>{{route.weatheratdest.temperature}} °C</p>
-                  </div>
+            </div>
+            <div class="end-pos details-div">
+              <h6> Posizione finale</h6>
+              <div class="row">
+                <div class="col-xs-6" style="margin-left:40px">
+                  <label>Latitudine </label>  <p>{{segment.endingPosition.latitude}}</p>
+                </div>
+                <div class="col-xs-6" style="margin-left:40px">
+                  <label>Longitudine </label> <p>{{segment.endingPosition.longitude}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="summary details-div">
+              <h6>Statistiche</h6>
+              <div class="row">
+                <div class="col-xs-6" style="margin-left:40px">
+                  <label>Lunghezza segmento </label>  <p>{{(segment.distance)}}km</p>
+                </div>
+                <div class="col-xs-6" style="margin-left:40px">
+                  <label>Tempo necessario </label> <p>{{(segment.time)}}h</p>
                 </div>
               </div>
             </div>
           </div>
-
-
+        </div>
+        <div id="route-weather" class="details-div">
+          <h6>Condizioni meteo all'arrivo</h6>
+          <div class="row">
+            <div class="col-xs-4" style="margin-left:40px">
+              <label>Illuminazione </label>  <p>{{route.weatherAtDest.daylight}}</p>
+            </div>
+            <div class="col-xs-4" style="margin-left:20px">
+              <label>Descrizione </label> <p>{{route.weatherAtDest.description}}</p>
+            </div>
+            <div class="col-xs-4" style="margin-left:20px">
+              <label>Temperatura </label> <p>{{route.weatherAtDest.temperature}} °C</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
   </div>
-
-
-
-
 </div>
 
 
-  <!-- <select class="form-control" id="city"><option value="">Select a city ...</option><option value="52.5165,13.3779">Berlin</option><option value="41.8838,-87.6392">Chicago</option><option value="-26.2005,28.0228">Johannesburg</option><option value="3.1035,101.6939">Kuala Lumpur</option><option value="51.5083,-0.1256">London</option><option value="19.4333,-99.1333">Mexico City</option><option value="55.7560,37.6127">Moscow</option><option value="28.6131,77.2293">New Dehli</option><option value="40.7129,-74.0157">New York City</option><option value="48.8746,2.2936">Paris</option><option value="-22.9054,-43.1944">Rio de Janerio</option><option value="37.7719,-122.4218">San Francisco</option><option value="-33.8734,151.2108">Sydney</option></select> -->
+
+

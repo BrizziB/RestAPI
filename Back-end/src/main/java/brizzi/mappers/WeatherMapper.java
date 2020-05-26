@@ -24,8 +24,9 @@ public class WeatherMapper {
     }
 
     private String getDayLight(JsonObject obj){
-        if (getObservation(obj).get("daylight").getAsString() =="D") return "day";
-        else return "night";
+        if (getObservation(obj).get("daylight").getAsString().equals("D")) return "day";
+        if (getObservation(obj).get("daylight").getAsString().equals("N")) return "night";
+        return "";
     }
     private String getDescription(JsonObject obj){
         return getObservation(obj).get("description").getAsString();
@@ -33,8 +34,7 @@ public class WeatherMapper {
     private Float getTemperature(JsonObject obj){
         return getObservation(obj).get("temperature").getAsFloat();
     }
-
-    private JsonObject getObservation(JsonObject obj){ //bruttino eh, senz'altro ci saranno modi migliori
+    private JsonObject getObservation(JsonObject obj){
         return obj.getAsJsonObject("observations").get("location")
                 .getAsJsonArray().get(0).getAsJsonObject().get("observation")
                 .getAsJsonArray().get(0).getAsJsonObject();

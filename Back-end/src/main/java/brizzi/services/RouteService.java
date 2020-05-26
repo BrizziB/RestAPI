@@ -18,20 +18,12 @@ public class RouteService {
     @Inject
     RouteServiceController routeController;
 
-
-    @GET
-    @Path("ping")
-    public String ping() {
-        return "ping";
-    }
-
     @GET
     @Path("getRoute")
     public Response getRoute(@QueryParam("waypoint") List<String> waypointsPositions, @QueryParam("userKey") String key){
         Gson gson = new Gson();
         String jsonPayload = gson.toJson(routeController.calculateRoute(waypointsPositions), RouteDTO.class);
         return Response.ok(jsonPayload).build();
-
     }
 
 }
