@@ -5,5 +5,5 @@ Front-end Angular => Esecuzione in modalità development: eseguire da bash (dent
                      
 
 Back-end JEE      => Si può direttamente fare il deploy del war RestAPI_prova su un server Wildfly18 o Payara5. 
-                     E' un progetto maven, quindi è possibile buildarlo "mvn clean install" .
+                     E' un progetto maven, quindi è possibile buildarlo col comando "mvn clean install" .
                     
