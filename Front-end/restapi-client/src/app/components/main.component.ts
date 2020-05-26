@@ -47,17 +47,26 @@ export class MainComponent implements OnInit {
   public setStartingCity(city: String): void {
     if (city === 'Custom') { return; }
     const selectedCity = this.cities.find(pos => pos.name === city);
-    this.start.copyPosition(selectedCity);
+
+    this.start.name = selectedCity.name;
+    this.start.latitude = selectedCity.latitude;
+    this.start.longitude = selectedCity.longitude;
   }
   public setEndingCity(city: String): void {
     if (city === 'Custom') { return; }
     const selectedCity = this.cities.find(pos => pos.name === city);
-    this.end.copyPosition(selectedCity);
+
+    this.end.name = selectedCity.name;
+    this.end.latitude = selectedCity.latitude;
+    this.end.longitude = selectedCity.longitude;
   }
   public setStopCity(city: String, index: number): void {
     if (city === 'Custom') { return; }
     const selectedCity = this.cities.find(pos => pos.name === city);
-    this.stops[index].copyPosition(selectedCity);
+
+    this.stops[index].name = selectedCity.name;
+    this.stops[index].latitude = selectedCity.latitude;
+    this.stops[index].longitude = selectedCity.longitude;
   }
 
   public addStop(): void {
