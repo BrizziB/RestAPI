@@ -1,0 +1,85 @@
+{
+	"info": {
+		"_postman_id": "b7d445b8-dc47-4bf6-96db-aacc4ca9625e",
+		"name": "APIRest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Test_Route",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/RestAPI_prova/routes/getRoute?waypoint=40.7480,-73.9862&waypoint=40.7500,-73.9933&waypoint=40.7558,-73.9869&waypoint=40.7858,-72.9869",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"RestAPI_prova",
+						"routes",
+						"getRoute"
+					],
+					"query": [
+						{
+							"key": "waypoint",
+							"value": "40.7480,-73.9862"
+						},
+						{
+							"key": "waypoint",
+							"value": "40.7500,-73.9933"
+						},
+						{
+							"key": "waypoint",
+							"value": "40.7558,-73.9869"
+						},
+						{
+							"key": "waypoint",
+							"value": "40.7858,-72.9869"
+						}
+					]
+				},
+				"description": "prima prova"
+			},
+			"response": []
+		},
+		{
+			"name": "Berlin-NewDehli-Paris",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/RestAPI_prova/routes/getRoute?waypoint=52.516,13.3779&waypoint=28.6131,77.2293&waypoint=48.8746,2.2936",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"RestAPI_prova",
+						"routes",
+						"getRoute"
+					],
+					"query": [
+						{
+							"key": "waypoint",
+							"value": "52.516,13.3779"
+						},
+						{
+							"key": "waypoint",
+							"value": "28.6131,77.2293"
+						},
+						{
+							"key": "waypoint",
+							"value": "48.8746,2.2936"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
