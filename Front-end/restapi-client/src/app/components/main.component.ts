@@ -16,13 +16,13 @@ export class MainComponent implements OnInit {
     protected routeService: RouteService
   ) { }
 
-  protected route: Route;
-  protected fetched = false;
-  protected stops: Position[];
-  protected start: Position;
-  protected end: Position;
-  protected cities: Position[];
-  protected waiting = false;
+  public route: Route;
+  public fetched = false;
+  public stops: Position[];
+  public start: Position;
+  public end: Position;
+  public cities: Position[];
+  public waiting = false;
 
   ngOnInit() {
     this.end = new Position;
